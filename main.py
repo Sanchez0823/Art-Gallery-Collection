@@ -1,70 +1,24 @@
-import sys, json, csv, png, os
-from dataclasses import dataclass, asdict
-from typing import List, Dict
+# Code was wrong.
+# SOURCE: https://www.youtube.com/watch?v=olom5Ow7zbo
+from tkinter import * # Imports te TKinter libraty
 
-from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QAction, QIcon
-from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel,
-    QListWidget, QListWidgetItem, QStackedWidget, QToolBar, QStatusBar,
-    QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QLineEdit,
-    QFormLayout, QDialog, QDialogButtonBox, QMessageBox, QFileDialog, QSpinBox,
-    QAbstractItemView, QFrame
-)
+root = MyArtGallery()
+# substites 'root = TK()'
+root.title("My Art Gallery")
+root.geometry("600x800")
 
-# App title and files
-APP_TITLE = "My Art Collection"
-DATA_FILE = "art_collections.json"
+def ClickButton():
+    if len(inputField.get()) == 0:
+        labelOne["text"] = "Please enter your name."
+    else:
+        labelOne["text"] = "Hello" + inputField.get()
 
-""" SETS """
-@dataclass
-class Comic:
-  title: str
-  year: int
-  num_panels: int
-  
-@dataclass
-class Doodle:
-   title: str
-   year: int
-   medium: str #paper, pen/pencil/marker
+inputField = Entry(root, width=60, font=("Comic Sans, 24"), bg="royalblue", fg="midnightblue", justify="center")
+buttonOne = Button(root, text="ClickMe", padx=50, pady=5, command=ClickButton, bg="gold", font=("Comic Sans, 15"))
+labelOne = Label(root, text="?????", font=("Comic Sans, 15"), fg="purple", pady=20)
 
-class Painting:
-    title: str
-    year: int
-    area: int
+inputField.pack(pady=20)
+buttonOne.pack(pady=10)
+labelOne.pack()
 
-# Comic Pictures
-class ComicDialogue(QDialog):
-    def __init__(self, parent=None, comic: Comic):
-        super().__init__(parent)
-        self.setWindowTitle("My Art Collection")
-        self.setMinimumWidth(400)
-        self.title = QLineEdit()
-        self.year = QLineEdit()
-        self.num_panels = QLineEdit()
-        if comic:
-            self.title.setText(comic.title)
-            self.year.setText(comic.year)
-            self.num_panels.setText(comic.num_panels)
-
-        form = QFormLayout()
-        form.addRow("Title*", self.title)
-        form.addRow("Year*", self.year)
-        form.addRow("Num Panels", self.num_panels)
-
-        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttons.accepted.connect(self.accept)
-        buttons.rejected.connect(self.reject)
-
-        lay = QVBoxLayout(self)
-        lay.addLayout(form)
-        lay.addWidget(buttons)
-
-    def get_details(self) -> dict:
-        return {"title": self.title.text().strip(),
-                "year": self.year.text().strip(),
-                "num_panels": self.num_panels.text().strip(),}
-
-    # class DoodleDialog(QDialog):
-
+root.mainloop()
